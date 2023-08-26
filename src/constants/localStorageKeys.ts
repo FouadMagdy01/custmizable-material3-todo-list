@@ -1,0 +1,1 @@
+export const USER_PREFERENCES = 'USER_PREFERENCES';

@@ -1,18 +1,40 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  BottomTabScreenProps,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 import {Text, BottomNavigation} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {CommonActions} from '@react-navigation/native';
+import {getHeaderTitle} from '@react-navigation/elements';
+import {Appbar} from 'react-native-paper';
+import Home from '../screens/Home';
+import Settings from '../screens/Settings';
 
-const Tab = createBottomTabNavigator();
+type TabsParamList = {
+  Home: undefined;
+  Settings: undefined;
+};
 
-export default function MyComponent() {
+export type HomeScreenParams = BottomTabScreenProps<TabsParamList, 'Home'>;
+const Tab = createBottomTabNavigator<TabsParamList>();
+
+export default function BottomTabNavigator() {
   return (
     <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
+      screenOptions={({navigation}) => {
+        return {
+          header: ({route, options}) => {
+            const title = getHeaderTitle(options, route.name);
+            return (
+              <Appbar.Header elevated>
+                <Appbar.Content title={title} />
+              </Appbar.Header>
+            );
+          },
+        };
       }}
       tabBar={({navigation, state, descriptors, insets}) => (
         <BottomNavigation.Bar
@@ -44,7 +66,6 @@ export default function MyComponent() {
           }}
           getLabelText={({route}) => {
             const {options} = descriptors[route.key];
-
             const label =
               options.tabBarLabel !== undefined
                 ? options.tabBarLabel
@@ -58,7 +79,7 @@ export default function MyComponent() {
       )}>
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={Home}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => {
@@ -68,7 +89,7 @@ export default function MyComponent() {
       />
       <Tab.Screen
         name="Settings"
-        component={SettingsScreen}
+        component={Settings}
         options={{
           tabBarLabel: 'Settings',
           tabBarIcon: ({color, size}) => {
@@ -79,27 +100,3 @@ export default function MyComponent() {
     </Tab.Navigator>
   );
 }
-
-function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <Text variant="headlineMedium">Home!</Text>
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  return (
-    <View style={styles.container}>
-      <Text variant="headlineMedium">Settings!</Text>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

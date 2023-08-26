@@ -1,5 +1,8 @@
 import {Button, StatusBar, View, useColorScheme} from 'react-native';
-import {useMaterial3Theme} from '@pchmn/expo-material3-theme';
+import {
+  createMaterial3Theme,
+  useMaterial3Theme,
+} from '@pchmn/expo-material3-theme';
 
 import {
   PaperProvider,
@@ -20,26 +23,45 @@ import {
 } from '@react-navigation/native';
 import React, {useMemo} from 'react';
 import StackNavigator from './src/navigation/StackNavigator';
+import {Provider} from 'react-redux';
+import {store} from './src/redux/store';
+import {useAppDispatch, useAppSelector} from './src/hooks/reduxHooks';
+import {
+  getLocalPreferences,
+  toggleTheme,
+} from './src/redux/preferences/reducers';
 
-let isDarkMode = false;
-export default function () {
-  const {theme, updateTheme} = useMaterial3Theme();
+function App() {
+  const preferences = useAppSelector(state => state.performance);
+  const dispatch = useAppDispatch();
+  console.log(useColorScheme());
+  const isDark = useColorScheme() === 'dark';
+  const {theme} = useMaterial3Theme({
+    fallbackSourceColor: '#63876c',
+  });
+  console.log(createMaterial3Theme('#63876c'));
   const {LightTheme, DarkTheme} = adaptNavigationTheme({
     reactNavigationLight: NavigationDefaultTheme,
     reactNavigationDark: NavigationDarkTheme,
   });
-  const paperTheme = useMemo(() => {
-    return {...MD3LightTheme, colors: theme.light};
-  }, [theme]);
+
+  // React.useEffect(() => {
+  //   dispatch(toggleTheme());
+  // }, [isDark]);
 
   React.useEffect(() => {
-    console.log('theme changed ');
-  }, [theme]);
+    dispatch(
+      getLocalPreferences({
+        fallbackTheme: theme,
+      }),
+    );
+  }, []);
+
   const CombinedDefaultTheme = {
     ...MD3LightTheme,
     ...LightTheme,
     colors: {
-      ...MD3LightTheme.colors,
+      ...preferences.theme.light,
       ...LightTheme.colors,
     },
   };
@@ -48,32 +70,41 @@ export default function () {
     ...MD3DarkTheme,
     ...DarkTheme,
     colors: {
-      ...MD3DarkTheme.colors,
+      ...preferences.theme.dark,
       ...DarkTheme.colors,
     },
   };
 
-  const combinedTheme = isDarkMode ? CombinedDarkTheme : CombinedDefaultTheme;
+  const combinedTheme = preferences.dark
+    ? CombinedDarkTheme
+    : CombinedDefaultTheme;
 
-  const configuredFontTheme = {
-    ...combinedTheme,
-    fonts: configureFonts({
-      config: {
-        fontFamily: 'NotoSans',
-      },
-    }),
-  };
+  if (preferences.loading) {
+    return null;
+  }
 
   return (
-    <PaperProvider
-      settings={{
-        rippleEffectEnabled: false,
-      }}
-      theme={configuredFontTheme}>
-      <NavigationContainer theme={combinedTheme}>
-        <StatusBar translucent={true} backgroundColor="transparent" />
+    <NavigationContainer theme={combinedTheme}>
+      <PaperProvider
+        settings={{
+          rippleEffectEnabled: false,
+        }}
+        theme={combinedTheme}>
+        <StatusBar
+          translucent={true}
+          backgroundColor="transparent"
+          barStyle={isDark ? 'light-content' : 'dark-content'}
+        />
         <StackNavigator />
-      </NavigationContainer>
-    </PaperProvider>
+      </PaperProvider>
+    </NavigationContainer>
+  );
+}
+
+export default function () {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
   );
 }
