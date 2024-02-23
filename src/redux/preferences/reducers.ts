@@ -22,6 +22,7 @@ interface LocalPreferencesError {
   fallbackTheme: Material3Theme;
   dark: boolean;
 }
+
 export const updateTheme = createAsyncThunk<
   UserPreferences,
   UpdateThemeParams,
@@ -29,7 +30,7 @@ export const updateTheme = createAsyncThunk<
 >('preferences/updateTheme', async (args, ThunkAPI) => {
   let updatedPreferencesData: UserPreferences;
   const state = ThunkAPI.getState();
-  const isDark = state.performance.dark;
+  const isDark = state.preferences.dark;
   try {
     const userPreferences = await AsyncStorage.getItem(USER_PREFERENCES);
     if (userPreferences != null) {

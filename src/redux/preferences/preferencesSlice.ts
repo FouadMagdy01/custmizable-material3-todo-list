@@ -1,12 +1,6 @@
-import {
-  Material3Scheme,
-  Material3Theme,
-  getMaterial3Theme,
-} from '@pchmn/expo-material3-theme';
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {MD3LightTheme} from 'react-native-paper';
-import {MD3Colors} from 'react-native-paper/lib/typescript/src/types';
-import {RootState} from '../store';
+import {Material3Theme} from '@pchmn/expo-material3-theme';
+import {createSlice} from '@reduxjs/toolkit';
+
 import {getLocalPreferences, toggleTheme, updateTheme} from './reducers';
 import {Appearance} from 'react-native';
 import {initialTheme} from '../../constants/themes';
@@ -23,7 +17,7 @@ interface PreferencesState {
 
 const initialState: PreferencesState = {
   theme: initialTheme,
-  dark: false,
+  dark: isDark,
   loading: true,
 };
 

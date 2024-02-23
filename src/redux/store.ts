@@ -3,7 +3,7 @@ import themeSlice from './preferences/preferencesSlice';
 
 export const store = configureStore({
   reducer: {
-    performance: themeSlice,
+    preferences: themeSlice,
   },
 });
 

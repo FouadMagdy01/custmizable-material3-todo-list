@@ -32,19 +32,25 @@ import {
 } from './src/redux/preferences/reducers';
 
 function App() {
-  const preferences = useAppSelector(state => state.performance);
+  const preferences = useAppSelector(state => state.preferences);
   const dispatch = useAppDispatch();
-  console.log(useColorScheme());
   const isDark = useColorScheme() === 'dark';
   const {theme} = useMaterial3Theme({
     fallbackSourceColor: '#63876c',
   });
-  console.log(createMaterial3Theme('#63876c'));
+
   const {LightTheme, DarkTheme} = adaptNavigationTheme({
     reactNavigationLight: NavigationDefaultTheme,
     reactNavigationDark: NavigationDarkTheme,
+    materialLight: {
+      ...MD3LightTheme,
+      colors: preferences.theme.light,
+    },
+    materialDark: {
+      ...MD3DarkTheme,
+      colors: preferences.theme.dark,
+    },
   });
-
   // React.useEffect(() => {
   //   dispatch(toggleTheme());
   // }, [isDark]);
@@ -85,11 +91,7 @@ function App() {
 
   return (
     <NavigationContainer theme={combinedTheme}>
-      <PaperProvider
-        settings={{
-          rippleEffectEnabled: false,
-        }}
-        theme={combinedTheme}>
+      <PaperProvider theme={combinedTheme}>
         <StatusBar
           translucent={true}
           backgroundColor="transparent"
