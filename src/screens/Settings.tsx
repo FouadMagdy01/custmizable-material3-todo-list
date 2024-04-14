@@ -27,7 +27,7 @@ import {createMaterial3Theme} from '@pchmn/expo-material3-theme';
 const Settings = () => {
   const prefsState = useAppSelector(state => state.preferences);
   const dispatch = useAppDispatch();
-  const customSwatches = new Array(100)
+  const customSwatches = new Array(6)
     .fill('#fff')
     .map(() => colorKit.randomRgbColor().hex());
 
