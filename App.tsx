@@ -34,7 +34,6 @@ import {
 function App() {
   const preferences = useAppSelector(state => state.preferences);
   const dispatch = useAppDispatch();
-  const isDark = useColorScheme() === 'dark';
   const {theme} = useMaterial3Theme({
     fallbackSourceColor: '#63876c',
   });
@@ -95,7 +94,7 @@ function App() {
         <StatusBar
           translucent={true}
           backgroundColor="transparent"
-          barStyle={isDark ? 'light-content' : 'dark-content'}
+          barStyle={preferences.dark ? 'light-content' : 'dark-content'}
         />
         <StackNavigator />
       </PaperProvider>
