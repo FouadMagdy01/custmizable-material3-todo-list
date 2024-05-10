@@ -1,35 +1,22 @@
-import {Button, StatusBar, View, useColorScheme} from 'react-native';
-import {
-  createMaterial3Theme,
-  useMaterial3Theme,
-} from '@pchmn/expo-material3-theme';
-
+import {StatusBar, useColorScheme} from 'react-native';
+import {useMaterial3Theme} from '@pchmn/expo-material3-theme';
 import {
   PaperProvider,
   MD3DarkTheme,
-  BottomNavigation,
-  Text,
   MD3LightTheme,
   adaptNavigationTheme,
-  configureFonts,
 } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import T from './src/navigation/BottomTabs';
-import {SafeAreaInsetsContext} from 'react-native-safe-area-context';
 import {
   NavigationContainer,
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
 } from '@react-navigation/native';
-import React, {useMemo} from 'react';
-import StackNavigator from './src/navigation/StackNavigator';
+import React from 'react';
+import RootNavigator from './src/navigation/RootNavigator';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store';
 import {useAppDispatch, useAppSelector} from './src/hooks/reduxHooks';
-import {
-  getLocalPreferences,
-  toggleTheme,
-} from './src/redux/preferences/reducers';
+import {getLocalPreferences} from './src/redux/preferences/reducers';
 
 function App() {
   const preferences = useAppSelector(state => state.preferences);
@@ -96,7 +83,7 @@ function App() {
           backgroundColor="transparent"
           barStyle={preferences.dark ? 'light-content' : 'dark-content'}
         />
-        <StackNavigator />
+        <RootNavigator />
       </PaperProvider>
     </NavigationContainer>
   );

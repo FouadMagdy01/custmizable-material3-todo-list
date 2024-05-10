@@ -1,27 +1,23 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet, Platform} from 'react-native';
 
 import {
   BottomTabScreenProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import {Text, BottomNavigation} from 'react-native-paper';
+import {Text, BottomNavigation, Menu, Divider} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {CommonActions} from '@react-navigation/native';
 import {getHeaderTitle} from '@react-navigation/elements';
 import {Appbar} from 'react-native-paper';
 import Home from '../screens/Home';
 import Settings from '../screens/Settings';
+import {TabsParamList} from './types';
 
-type TabsParamList = {
-  Home: undefined;
-  Settings: undefined;
-};
-
-export type HomeScreenParams = BottomTabScreenProps<TabsParamList, 'Home'>;
 const Tab = createBottomTabNavigator<TabsParamList>();
 
 export default function BottomTabNavigator() {
+  const [visible, setVisible] = useState(false);
   return (
     <Tab.Navigator
       screenOptions={({navigation}) => {
@@ -31,6 +27,8 @@ export default function BottomTabNavigator() {
             return (
               <Appbar.Header elevated>
                 <Appbar.Content title={title} />
+                <Appbar.Action icon="magnify" onPress={() => {}} />
+                <Appbar.Action icon="calendar" onPress={() => {}} />
               </Appbar.Header>
             );
           },
@@ -61,7 +59,6 @@ export default function BottomTabNavigator() {
             if (options.tabBarIcon) {
               return options.tabBarIcon({focused, color, size: 24});
             }
-
             return null;
           }}
           getLabelText={({route}) => {
@@ -72,7 +69,6 @@ export default function BottomTabNavigator() {
                 : options.title !== undefined
                 ? options.title
                 : route.name;
-
             return label.toString();
           }}
         />
@@ -91,9 +87,9 @@ export default function BottomTabNavigator() {
         name="Settings"
         component={Settings}
         options={{
-          tabBarLabel: 'Settings',
+          tabBarLabel: 'Menu',
           tabBarIcon: ({color, size}) => {
-            return <Icon name="cog" size={size} color={color} />;
+            return <Icon name="menu" size={size} color={color} />;
           },
         }}
       />
