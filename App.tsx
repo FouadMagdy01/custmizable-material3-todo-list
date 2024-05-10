@@ -95,7 +95,7 @@ function App() {
         <StatusBar
           translucent={true}
           backgroundColor="transparent"
-          barStyle={isDark ? 'light-content' : 'dark-content'}
+          barStyle={preferences.dark ? 'light-content' : 'dark-content'}
         />
         <StackNavigator />
       </PaperProvider>

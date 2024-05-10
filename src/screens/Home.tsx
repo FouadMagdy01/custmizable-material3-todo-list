@@ -1,10 +1,16 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Text} from 'react-native-paper';
+import {View, StyleSheet, Appearance} from 'react-native';
+import {Button, Text} from 'react-native-paper';
 const Home = () => {
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>
+      {/* <Button
+        onPress={() => {
+          Appearance.setColorScheme('dark');
+        }}>
+        A
+      </Button> */}
     </View>
   );
 };
