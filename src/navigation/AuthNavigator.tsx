@@ -8,18 +8,17 @@ import BottomTabNavigator from './BottomTabs';
 import {getHeaderTitle} from '@react-navigation/elements';
 import {Button, Platform} from 'react-native';
 import {Appbar} from 'react-native-paper';
+import Login from '../screens/Login';
+import {AuthStackParamList, RootStackParamList} from './types';
+import Register from '../screens/Register';
 
-type RootStackParamList = {
-  Tabs: undefined;
-  Test: undefined;
-};
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<AuthStackParamList>();
 const cardStyleInterpolator =
   Platform.OS === 'android'
     ? CardStyleInterpolators.forFadeFromBottomAndroid
     : CardStyleInterpolators.forHorizontalIOS;
 
-const StackNavigator: React.FC<{}> = () => {
+const AuthNavigator: React.FC<{}> = () => {
   return (
     <Stack.Navigator
       screenOptions={({navigation}) => {
@@ -40,9 +39,10 @@ const StackNavigator: React.FC<{}> = () => {
           },
         };
       }}>
-      <Stack.Screen name="Tabs" component={BottomTabNavigator} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Register" component={Register} />
     </Stack.Navigator>
   );
 };
 
-export default StackNavigator;
+export default AuthNavigator;

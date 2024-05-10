@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, PixelRatio, ScrollView} from 'react-native';
+import {View, StyleSheet, PixelRatio, ScrollView, Alert} from 'react-native';
 import {
   Button,
   Card,
@@ -27,10 +27,10 @@ import {createMaterial3Theme} from '@pchmn/expo-material3-theme';
 const Settings = () => {
   const prefsState = useAppSelector(state => state.preferences);
   const dispatch = useAppDispatch();
-  const customSwatches = new Array(6)
-    .fill('#fff')
+  const customSwatches = new Array(36)
+    .fill('')
     .map(() => colorKit.randomRgbColor().hex());
-
+  console.log(customSwatches);
   const selectedColor = useSharedValue(customSwatches[0]);
   const backgroundColorStyle = useAnimatedStyle(() => ({
     backgroundColor: selectedColor.value,
@@ -136,7 +136,8 @@ const Settings = () => {
                 borderWidth: 2,
               },
               backgroundColorStyle,
-            ]}></Animated.View>
+            ]}
+          />
           <PreviewText style={{color: '#707070'}} />
         </View>
       </ColorPicker>
