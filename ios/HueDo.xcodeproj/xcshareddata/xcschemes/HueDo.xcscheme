@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "MaterialYou.app"
-               BlueprintName = "MaterialYou"
-               ReferencedContainer = "container:MaterialYou.xcodeproj">
+               BuildableName = "HueDo.app"
+               BlueprintName = "HueDo"
+               ReferencedContainer = "container:HueDo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "MaterialYouTests.xctest"
-               BlueprintName = "MaterialYouTests"
-               ReferencedContainer = "container:MaterialYou.xcodeproj">
+               BuildableName = "HueDoTests.xctest"
+               BlueprintName = "HueDoTests"
+               ReferencedContainer = "container:HueDo.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,11 +55,20 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "MaterialYou.app"
-            BlueprintName = "MaterialYou"
-            ReferencedContainer = "container:MaterialYou.xcodeproj">
+            BuildableName = "HueDo.app"
+            BlueprintName = "HueDo"
+            ReferencedContainer = "container:HueDo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+            BuildableName = "HueDo.app"
+            BlueprintName = "HueDo"
+            ReferencedContainer = "container:HueDo.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -72,11 +81,20 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "MaterialYou.app"
-            BlueprintName = "MaterialYou"
-            ReferencedContainer = "container:MaterialYou.xcodeproj">
+            BuildableName = "HueDo.app"
+            BlueprintName = "HueDo"
+            ReferencedContainer = "container:HueDo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+            BuildableName = "HueDo.app"
+            BlueprintName = "HueDo"
+            ReferencedContainer = "container:HueDo.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   StyleSheet,
   Appearance,
   ScrollView,
   useWindowDimensions,
+  Animated,
+  Keyboard,
+  KeyboardEvent,
 } from 'react-native';
 import {
   Button,
@@ -18,15 +21,51 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useKeyboardHeight} from '../hooks/useKeyboard';
 import {useNavigation} from '@react-navigation/native';
 import {LoginScreenProps} from '../navigation/types';
-let loading = true;
+
 const Login = ({navigation}: LoginScreenProps) => {
   const [loading, setLoading] = useState(false);
   const insets = useSafeAreaInsets();
   const dimensions = useWindowDimensions();
   const materialTheme = useTheme();
   const keyboardHeight = useKeyboardHeight();
+  const containerHeight = useRef(
+    new Animated.Value(dimensions.height - insets.top),
+  ).current;
+
+  const handleKeyboardWillShow = (event: KeyboardEvent) => {
+    Animated.timing(containerHeight, {
+      toValue: dimensions.height - (event.endCoordinates.height + insets.top),
+      duration: event.duration,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const handleKeyboardWillHide = () => {
+    Animated.timing(containerHeight, {
+      toValue: dimensions.height - insets.top,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  React.useEffect(() => {
+    const keyboardWillShowListener = Keyboard.addListener(
+      'keyboardWillShow',
+      handleKeyboardWillShow,
+    );
+    const keyboardWillHideListener = Keyboard.addListener(
+      'keyboardWillHide',
+      handleKeyboardWillHide,
+    );
+
+    return () => {
+      keyboardWillShowListener.remove();
+      keyboardWillHideListener.remove();
+    };
+  }, []);
+
   return (
-    <ScrollView
+    <Animated.ScrollView
       keyboardShouldPersistTaps="always"
       contentContainerStyle={{
         flexGrow: 1,
@@ -37,8 +76,7 @@ const Login = ({navigation}: LoginScreenProps) => {
         styles.container,
         {
           marginTop: insets.top,
-          marginBottom: insets.bottom,
-          maxHeight: dimensions.height - keyboardHeight,
+          maxHeight: containerHeight,
         },
       ]}>
       <View
@@ -46,6 +84,7 @@ const Login = ({navigation}: LoginScreenProps) => {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
+          marginBottom: 16,
         }}>
         <Icon source="checkbox-marked-circle-outline" size={80} />
         <Text style={{marginTop: 8}} variant="headlineMedium">
@@ -62,13 +101,6 @@ const Login = ({navigation}: LoginScreenProps) => {
           label="Password"
           style={{width: '100%', marginTop: 8}}
         />
-        {/* <Text
-          style={{
-            marginTop: 8,
-            color: materialTheme.colors.error,
-          }}>
-          Invalid email or password
-        </Text> */}
         <Button
           style={{
             marginTop: 8,
@@ -112,6 +144,7 @@ const Login = ({navigation}: LoginScreenProps) => {
           flex: 1,
           justifyContent: 'flex-end',
           width: '90%',
+          marginTop: 16,
         }}>
         <Button
           disabled={loading}
@@ -129,13 +162,14 @@ const Login = ({navigation}: LoginScreenProps) => {
           style={{
             marginTop: 8,
             width: '100%',
+            marginBottom: insets.bottom,
           }}
           mode="text"
           onPress={() => {}}>
           Continue as a guest
         </Button>
       </View>
-    </ScrollView>
+    </Animated.ScrollView>
   );
 };
 
