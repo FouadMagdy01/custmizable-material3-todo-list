@@ -24,6 +24,7 @@ ios/.xcode.env.local
 
 # Android/IntelliJ
 #
+google-services.json
 build/
 .idea
 .gradle
