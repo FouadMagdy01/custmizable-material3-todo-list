@@ -11,7 +11,7 @@ import {Appbar} from 'react-native-paper';
 import Login from '../screens/Login';
 import {AuthStackParamList, RootStackParamList} from './types';
 import Register from '../screens/Register';
-
+import auth from '@react-native-firebase/auth';
 const Stack = createStackNavigator<AuthStackParamList>();
 const cardStyleInterpolator =
   Platform.OS === 'android'

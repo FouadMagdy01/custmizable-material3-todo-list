@@ -6,8 +6,9 @@ import {
 import {StackScreenProps} from '@react-navigation/stack';
 
 export type RootStackParamList = {
-  Tabs: undefined;
+  Tabs: NavigatorScreenParams<TabsParamList>;
   Auth: NavigatorScreenParams<AuthStackParamList>;
+  Task: undefined;
 };
 export type AuthStackParamList = {
   Login: undefined;
@@ -20,10 +21,16 @@ export type TabsParamList = {
   Home: undefined;
   Settings: undefined;
 };
-export type HomeScreenParams = BottomTabScreenProps<TabsParamList, 'Home'>;
-export type SettingsScreenProps = BottomTabScreenProps<
-  TabsParamList,
-  'Settings'
+
+export type TaskScreenProps = StackScreenProps<RootStackParamList, 'Task'>;
+export type HomeScreenParams = CompositeScreenProps<
+  BottomTabScreenProps<TabsParamList, 'Home'>,
+  StackScreenProps<RootStackParamList>
+>;
+
+export type SettingsScreenProps = CompositeScreenProps<
+  BottomTabScreenProps<TabsParamList, 'Settings'>,
+  StackScreenProps<RootStackParamList>
 >;
 
 export type LoginScreenProps = CompositeScreenProps<

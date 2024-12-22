@@ -9,6 +9,7 @@ import {Platform} from 'react-native';
 import {Appbar} from 'react-native-paper';
 import {RootStackParamList} from './types';
 import AuthNavigator from './AuthNavigator';
+import EditCreateTodo from '../screens/Edit+CreateTask/Edit+Create.Todo';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const cardStyleInterpolator =
@@ -37,8 +38,16 @@ const RootNavigator: React.FC<{}> = () => {
           },
         };
       }}>
-      <Stack.Screen name="Auth" component={AuthNavigator} />
+      {/* <Stack.Screen name="Auth" component={AuthNavigator} /> */}
       <Stack.Screen name="Tabs" component={BottomTabNavigator} />
+      <Stack.Screen
+        name="Task"
+        options={{
+          headerShown: true,
+          headerTitle: 'New Task',
+        }}
+        component={EditCreateTodo}
+      />
     </Stack.Navigator>
   );
 };

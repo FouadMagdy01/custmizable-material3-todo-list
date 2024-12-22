@@ -24,6 +24,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import {createMaterial3Theme} from '@pchmn/expo-material3-theme';
+import ScreenWrapper from '../components/ScreenWrapper';
 const Settings = () => {
   const prefsState = useAppSelector(state => state.preferences);
   const dispatch = useAppDispatch();
@@ -51,30 +52,7 @@ const Settings = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Card
-        style={{
-          marginHorizontal: 8 * PixelRatio.get(),
-          marginTop: 16,
-        }}
-        mode="elevated">
-        <Card.Cover
-          source={{
-            uri: 'https://media.istockphoto.com/id/1322277517/photo/wild-grass-in-the-mountains-at-sunset.jpg?s=612x612&w=0&k=20&c=6mItwwFFGqKNKEAzv0mv6TaxhLN3zSE43bWmFN--J5w=',
-          }}
-        />
-        <Card.Title title="John Doe's injury" titleVariant="headlineMedium" />
-        <Card.Content>
-          <Text variant="bodyMedium">
-            Medical tests show that Doe has injured the tendon in his left
-            hamstring, and in the next few days will...
-          </Text>
-        </Card.Content>
-        <Card.Actions>
-          <Button onPress={() => {}}>Share</Button>
-          <Button onPress={() => {}}>Read more</Button>
-        </Card.Actions>
-      </Card>
+    <ScreenWrapper withScrollView contentContainerStyle={styles.container}>
       <TouchableRipple
         onPress={() => {
           dispatch(toggleTheme());
@@ -141,7 +119,7 @@ const Settings = () => {
           <PreviewText style={{color: '#707070'}} />
         </View>
       </ColorPicker>
-    </ScrollView>
+    </ScreenWrapper>
   );
 };
 

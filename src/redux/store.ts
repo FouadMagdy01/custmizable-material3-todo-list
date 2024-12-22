@@ -1,9 +1,11 @@
 import {configureStore} from '@reduxjs/toolkit';
-import themeSlice from './preferences/preferencesSlice';
+import tasksSlice from './tasks/tasksSlice';
 
+import themeSlice from './preferences/preferencesSlice';
 export const store = configureStore({
   reducer: {
     preferences: themeSlice,
+    todos: tasksSlice,
   },
 });
 

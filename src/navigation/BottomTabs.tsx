@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {CommonActions} from '@react-navigation/native';
 import {getHeaderTitle} from '@react-navigation/elements';
 import {Appbar} from 'react-native-paper';
-import Home from '../screens/Home';
+import Home from '../screens/Home/Home';
 import Settings from '../screens/Settings';
 import {TabsParamList} from './types';
 
@@ -22,6 +22,7 @@ export default function BottomTabNavigator() {
     <Tab.Navigator
       screenOptions={({navigation}) => {
         return {
+          headerShown: false,
           header: ({route, options}) => {
             const title = getHeaderTitle(options, route.name);
             return (
