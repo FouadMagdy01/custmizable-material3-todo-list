@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Button, Icon, Text, TextInput} from 'react-native-paper';
-import {RegisterScreenProps} from '../navigation/types';
-import ScreenWrapper from '../components/ScreenWrapper';
+import {RegisterScreenProps} from '../../../navigation/types';
+import ScreenWrapper from '../../../components/ScreenWrapper';
 
 const Register = ({navigation}: RegisterScreenProps) => {
   const [loading, setLoading] = useState(false);
@@ -70,7 +70,9 @@ const Register = ({navigation}: RegisterScreenProps) => {
             setLoading(true);
             setTimeout(() => {
               setLoading(false);
-              navigation.navigate('Tabs');
+              navigation.navigate('Tabs' , {
+                screen:"Home"
+              });
             }, 3000);
           }}
           mode="contained">

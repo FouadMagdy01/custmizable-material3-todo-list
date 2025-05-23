@@ -8,9 +8,9 @@ import BottomTabNavigator from './BottomTabs';
 import {getHeaderTitle} from '@react-navigation/elements';
 import {Button, Platform} from 'react-native';
 import {Appbar} from 'react-native-paper';
-import Login from '../screens/Login';
+import Login from '../screens/Auth/Login/LoginScreen';
 import {AuthStackParamList, RootStackParamList} from './types';
-import Register from '../screens/Register';
+import Register from '../screens/Auth/Register/RegisterScreen';
 import auth from '@react-native-firebase/auth';
 const Stack = createStackNavigator<AuthStackParamList>();
 const cardStyleInterpolator =

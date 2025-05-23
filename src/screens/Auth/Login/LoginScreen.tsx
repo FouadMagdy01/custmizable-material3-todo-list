@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Button, Icon, Text, TextInput} from 'react-native-paper';
 
-import {LoginScreenProps} from '../navigation/types';
-import ScreenWrapper from '../components/ScreenWrapper';
+import {LoginScreenProps} from '../../../navigation/types';
+import ScreenWrapper from '../../../components/ScreenWrapper';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
 import {firebase} from '@react-native-firebase/database';

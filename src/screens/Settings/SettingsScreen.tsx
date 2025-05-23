@@ -8,8 +8,8 @@ import {
   TextInput,
   TouchableRipple,
 } from 'react-native-paper';
-import {useAppDispatch, useAppSelector} from '../hooks/reduxHooks';
-import {toggleTheme, updateTheme} from '../redux/preferences/reducers';
+import {useAppDispatch, useAppSelector} from '../../hooks/reduxHooks';
+import {toggleTheme, updateTheme} from '../../redux/preferences/reducers';
 import ColorPicker, {
   returnedResults,
   colorKit,
@@ -24,7 +24,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import {createMaterial3Theme} from '@pchmn/expo-material3-theme';
-import ScreenWrapper from '../components/ScreenWrapper';
+import ScreenWrapper from '../../components/ScreenWrapper';
 const Settings = () => {
   const prefsState = useAppSelector(state => state.preferences);
   const dispatch = useAppDispatch();

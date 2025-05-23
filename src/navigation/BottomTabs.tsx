@@ -10,8 +10,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {CommonActions} from '@react-navigation/native';
 import {getHeaderTitle} from '@react-navigation/elements';
 import {Appbar} from 'react-native-paper';
-import Home from '../screens/Home/Home';
-import Settings from '../screens/Settings';
+import Home from '../screens/Home/HomeScreen';
+import Settings from '../screens/Settings/SettingsScreen';
 import {TabsParamList} from './types';
 
 const Tab = createBottomTabNavigator<TabsParamList>();

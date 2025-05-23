@@ -9,7 +9,7 @@ import {Platform} from 'react-native';
 import {Appbar} from 'react-native-paper';
 import {RootStackParamList} from './types';
 import AuthNavigator from './AuthNavigator';
-import EditCreateTodo from '../screens/Edit+CreateTask/Edit+Create.Todo';
+import EditCreateTodo from '../screens/Edit+CreateTask/Edit+Create.Todo.Screen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const cardStyleInterpolator =
