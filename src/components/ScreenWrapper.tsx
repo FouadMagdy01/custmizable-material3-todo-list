@@ -53,7 +53,8 @@ const ScreenWrapper: React.FC<Props> = ({
   const headerHeight = useHeaderHeight();
   React.useEffect(() => {
     containerHeight.value = withSpring(
-      dimensions.height - (keyboardHeight + headerHeight - insets.top),
+      dimensions.height -
+        (keyboardHeight + headerHeight - insets.top + insets.bottom),
       SPRING_CONFIG,
     );
   }, [keyboardHeight, dimensions.height, headerHeight]);
@@ -66,6 +67,7 @@ const ScreenWrapper: React.FC<Props> = ({
   return withScrollView ? (
     <Animated.ScrollView
       {...rest}
+      keyboardShouldPersistTaps="always"
       style={[
         styles.container,
         {
@@ -94,6 +96,7 @@ const ScreenWrapper: React.FC<Props> = ({
 };
 
 export default ScreenWrapper;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

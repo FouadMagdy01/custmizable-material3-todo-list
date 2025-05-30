@@ -1,106 +1,128 @@
 import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {Button, Icon, Text, TextInput} from 'react-native-paper';
+import {Button, Icon, Text, TextInput, HelperText} from 'react-native-paper';
 
 import {LoginScreenProps} from '../../../navigation/types';
 import ScreenWrapper from '../../../components/ScreenWrapper';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import auth from '@react-native-firebase/auth';
-import {firebase} from '@react-native-firebase/database';
 import {useFormik} from 'formik';
 import {object, string, InferType} from 'yup';
-
-const validationScheme = object({
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+// ✅ Fixed and simplified validation schema
+const validationSchema = object({
   email: string()
+    .trim()
     .required('Email is required')
-    .email('Please enter valid email address'),
-  password: string()
-    .required('Password is required')
-    .min(8, 'Password must be at least 8 characters long')
-    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .matches(/\d/, 'Password must contain at least one number')
-    .matches(
-      /[!@#$%^&*(),.?":{}|<>]/,
-      'Password must contain at least one special character',
-    ),
+    .email('Enter a valid email address'),
+  password: string().required('Password is required'),
 });
-const Login = ({navigation}: LoginScreenProps) => {
-  const [loading, setLoading] = useState(false);
-  const insets = useSafeAreaInsets();
-  const {} = useFormik<InferType<typeof validationScheme>>({
-    validationSchema: validationScheme,
-    initialValues: {email: '', password: ''},
 
-    onSubmit(values, formikHelpers) {},
-  });
+type FormValues = InferType<typeof validationSchema>;
+
+const LoginScreen = ({navigation}: LoginScreenProps) => {
+  const [signingInAnonymously, setSigningInAnonymously] = React.useState(false);
+  const {values, errors, handleChange, handleSubmit, isSubmitting} =
+    useFormik<FormValues>({
+      validationSchema,
+      validateOnBlur: true,
+      initialValues: {
+        email: '',
+        password: '',
+      },
+      onSubmit: async (values, formikHelpers) => {
+        try {
+          await auth().signInWithEmailAndPassword(
+            values.email,
+            values.password,
+          );
+          // Navigate or handle success
+        } catch (error) {
+          console.error('Login error:', error);
+        }
+      },
+    });
+
+  const signInAsGuest = async () => {
+    try {
+      setSigningInAnonymously(true);
+      const registeredUser = await auth().signInAnonymously();
+      await database().ref(`/users/${registeredUser.user.uid}`).set({
+        firstName: null,
+        lastName: null,
+        email: null,
+      });
+    } catch (error) {
+      console.error('Login error:', error);
+    } finally {
+      setSigningInAnonymously(false);
+    }
+  };
   return (
     <ScreenWrapper
       withScrollView
-      contentContainerStyle={styles.contentContainerStyle}>
-      <View style={styles.wrapper}>
+      contentContainerStyle={styles.contentContainer}>
+      <View style={styles.header}>
         <Icon source="login" size={80} />
-        <Text style={styles.signInTitle} variant="headlineMedium">
+        <Text style={styles.title} variant="headlineMedium">
           Sign in
         </Text>
       </View>
-      <View style={styles.signInFormWrapper}>
-        <TextInput mode="outlined" label="Email" style={styles.textInput} />
+
+      <View style={styles.form}>
+        <TextInput
+          mode="outlined"
+          label="Email"
+          value={values.email}
+          onChangeText={handleChange('email')}
+          error={!!errors.email}
+          style={styles.input}
+        />
+        <HelperText type="error" visible={!!errors.email}>
+          {errors.email}
+        </HelperText>
+
         <TextInput
           mode="outlined"
           label="Password"
-          style={[styles.textInput, styles.passwordInput]}
+          secureTextEntry
+          value={values.password}
+          onChangeText={handleChange('password')}
+          error={!!errors.password}
+          style={[styles.input, styles.passwordInput]}
         />
-        <Button
-          style={styles.forgotPasswordButton}
-          mode="text"
-          onPress={() => {}}>
+        <HelperText type="error" visible={!!errors.password}>
+          {errors.password}
+        </HelperText>
+
+        <Button style={styles.forgotPassword} mode="text" onPress={() => {}}>
           Forget password?
         </Button>
+
         <Button
-          disabled={loading}
-          loading={loading}
+          disabled={isSubmitting || signingInAnonymously}
+          loading={isSubmitting || signingInAnonymously}
           style={styles.signInButton}
-          onPress={() => {
-            setLoading(true);
-            setTimeout(() => {
-              setLoading(false);
-              navigation.navigate('Tabs', {
-                screen: 'Home',
-              });
-            }, 3000);
-          }}
-          mode="contained">
+          mode="contained"
+          onPress={() => handleSubmit()}>
           Sign In
         </Button>
-        <Button
-          disabled={loading}
-          style={styles.googleSignInButton}
-          mode="elevated"
-          icon="google"
-          onPress={() => {}}>
-          Sign In with Google
-        </Button>
       </View>
-      <View style={[styles.footer, {marginBottom: insets.bottom}]}>
+
+      <View style={styles.footer}>
         <Button
-          disabled={loading}
-          style={styles.createAccountButton}
+          disabled={isSubmitting || signingInAnonymously}
+          style={styles.createAccount}
           mode="outlined"
-          onPress={async () => {
-            const {user} = await auth().createUserWithEmailAndPassword(
-              'fouad.magdy772@gmail.com',
-              'Foush100%',
-            );
-            await firebase.auth().currentUser?.sendEmailVerification();
-          }}>
+          onPress={() => navigation.navigate('Auth', {screen: 'Register'})}>
           Create new account
         </Button>
+
         <Button
-          disabled={loading}
-          style={[styles.guestButton, {marginBottom: insets.bottom}]}
+          loading={signingInAnonymously || isSubmitting}
+          disabled={signingInAnonymously || isSubmitting}
+          style={styles.guest}
           mode="text"
-          onPress={() => {}}>
+          onPress={signInAsGuest}>
           Continue as a guest
         </Button>
       </View>
@@ -109,29 +131,28 @@ const Login = ({navigation}: LoginScreenProps) => {
 };
 
 const styles = StyleSheet.create({
-  contentContainerStyle: {
+  contentContainer: {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  wrapper: {
-    flex: 1,
-    justifyContent: 'center',
+  header: {
     alignItems: 'center',
+    marginBottom: 16,
   },
-  signInTitle: {
+  title: {
     marginTop: 8,
   },
-  signInFormWrapper: {
+  form: {
     width: '90%',
   },
-  textInput: {
+  input: {
     width: '100%',
   },
   passwordInput: {
     marginTop: 8,
   },
-  forgotPasswordButton: {
+  forgotPassword: {
     marginTop: 8,
     alignSelf: 'flex-end',
   },
@@ -139,24 +160,17 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 24,
   },
-  googleSignInButton: {
-    width: '100%',
-    marginTop: 16,
-    marginBottom: 16,
-  },
   footer: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    marginTop: 24,
     width: '90%',
-    marginTop: 16,
   },
-  createAccountButton: {
+  createAccount: {
     width: '100%',
   },
-  guestButton: {
+  guest: {
     marginTop: 8,
     width: '100%',
   },
 });
 
-export default Login;
+export default LoginScreen;

@@ -1,17 +1,14 @@
 import {
   createStackNavigator,
   CardStyleInterpolators,
-  StackScreenProps,
 } from '@react-navigation/stack';
 import React from 'react';
-import BottomTabNavigator from './BottomTabs';
 import {getHeaderTitle} from '@react-navigation/elements';
-import {Button, Platform} from 'react-native';
+import {Platform} from 'react-native';
 import {Appbar} from 'react-native-paper';
 import Login from '../screens/Auth/Login/LoginScreen';
-import {AuthStackParamList, RootStackParamList} from './types';
-import Register from '../screens/Auth/Register/RegisterScreen';
-import auth from '@react-native-firebase/auth';
+import {AuthStackParamList} from './types';
+import RegisterScreen from '../screens/Auth/Register/RegisterScreen';
 const Stack = createStackNavigator<AuthStackParamList>();
 const cardStyleInterpolator =
   Platform.OS === 'android'
@@ -40,7 +37,7 @@ const AuthNavigator: React.FC<{}> = () => {
         };
       }}>
       <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
     </Stack.Navigator>
   );
 };

@@ -10,14 +10,16 @@ import {Appbar} from 'react-native-paper';
 import {RootStackParamList} from './types';
 import AuthNavigator from './AuthNavigator';
 import EditCreateTodo from '../screens/Edit+CreateTask/Edit+Create.Todo.Screen';
-
+import auth from '@react-native-firebase/auth';
+import {useAppSelector} from '../hooks/reduxHooks';
 const Stack = createStackNavigator<RootStackParamList>();
 const cardStyleInterpolator =
   Platform.OS === 'android'
     ? CardStyleInterpolators.forFadeFromBottomAndroid
     : CardStyleInterpolators.forHorizontalIOS;
-
 const RootNavigator: React.FC<{}> = () => {
+  const {isLoggedInt} = useAppSelector(state => state.auth);
+  console.log('is logged in', isLoggedInt);
   return (
     <Stack.Navigator
       screenOptions={({navigation}) => {
@@ -38,16 +40,21 @@ const RootNavigator: React.FC<{}> = () => {
           },
         };
       }}>
-      {/* <Stack.Screen name="Auth" component={AuthNavigator} /> */}
-      <Stack.Screen name="Tabs" component={BottomTabNavigator} />
-      <Stack.Screen
-        name="Task"
-        options={{
-          headerShown: true,
-          headerTitle: 'New Task',
-        }}
-        component={EditCreateTodo}
-      />
+      {!isLoggedInt ? (
+        <Stack.Screen name="Auth" component={AuthNavigator} />
+      ) : (
+        <>
+          <Stack.Screen name="Tabs" component={BottomTabNavigator} />
+          <Stack.Screen
+            name="Task"
+            options={{
+              headerShown: true,
+              headerTitle: 'New Task',
+            }}
+            component={EditCreateTodo}
+          />
+        </>
+      )}
     </Stack.Navigator>
   );
 };

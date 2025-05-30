@@ -17,8 +17,12 @@ import {Provider} from 'react-redux';
 import {store} from './src/redux/store';
 import {useAppDispatch, useAppSelector} from './src/hooks/reduxHooks';
 import {getLocalPreferences} from './src/redux/preferences/reducers';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {toggleLoginState} from './src/redux/auth/authSlice';
 
 function App() {
+  const [initializing, setInitializing] = React.useState(true);
+
   const preferences = useAppSelector(state => state.preferences);
   const dispatch = useAppDispatch();
   const {theme} = useMaterial3Theme({
@@ -37,9 +41,21 @@ function App() {
       colors: preferences.theme.dark,
     },
   });
-  // React.useEffect(() => {
-  //   dispatch(toggleTheme());
-  // }, [isDark]);
+
+  React.useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged(u => {
+      console.log('auth state changed');
+      console.log(u);
+      if (u) {
+        dispatch(toggleLoginState(true));
+      } else {
+        dispatch(toggleLoginState(false));
+      }
+      if (initializing) setInitializing(false);
+    });
+
+    return unsubscribe; // cleanup on unmount
+  }, []);
 
   React.useEffect(() => {
     dispatch(

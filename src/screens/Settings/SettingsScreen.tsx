@@ -1,13 +1,6 @@
 import React from 'react';
-import {View, StyleSheet, PixelRatio, ScrollView, Alert} from 'react-native';
-import {
-  Button,
-  Card,
-  Switch,
-  Text,
-  TextInput,
-  TouchableRipple,
-} from 'react-native-paper';
+import {View, StyleSheet, PixelRatio} from 'react-native';
+import {Button, Switch, Text, TouchableRipple} from 'react-native-paper';
 import {useAppDispatch, useAppSelector} from '../../hooks/reduxHooks';
 import {toggleTheme, updateTheme} from '../../redux/preferences/reducers';
 import ColorPicker, {
@@ -25,13 +18,14 @@ import Animated, {
 } from 'react-native-reanimated';
 import {createMaterial3Theme} from '@pchmn/expo-material3-theme';
 import ScreenWrapper from '../../components/ScreenWrapper';
+import auth from '@react-native-firebase/auth';
 const Settings = () => {
   const prefsState = useAppSelector(state => state.preferences);
   const dispatch = useAppDispatch();
-  const customSwatches = new Array(36)
+  const customSwatches = new Array(6)
     .fill('')
     .map(() => colorKit.randomRgbColor().hex());
-  console.log(customSwatches);
+
   const selectedColor = useSharedValue(customSwatches[0]);
   const backgroundColorStyle = useAnimatedStyle(() => ({
     backgroundColor: selectedColor.value,
@@ -53,6 +47,12 @@ const Settings = () => {
 
   return (
     <ScreenWrapper withScrollView contentContainerStyle={styles.container}>
+      <Button
+        onPress={async () => {
+          await auth().signOut();
+        }}>
+        Sign out
+      </Button>
       <TouchableRipple
         onPress={() => {
           dispatch(toggleTheme());
