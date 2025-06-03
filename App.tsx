@@ -1,4 +1,4 @@
-import {StatusBar, useColorScheme} from 'react-native';
+import {Button, StatusBar, useColorScheme} from 'react-native';
 import {useMaterial3Theme} from '@pchmn/expo-material3-theme';
 import {
   PaperProvider,
@@ -42,29 +42,6 @@ function App() {
     },
   });
 
-  React.useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged(u => {
-      console.log('auth state changed');
-      console.log(u);
-      if (u) {
-        dispatch(toggleLoginState(true));
-      } else {
-        dispatch(toggleLoginState(false));
-      }
-      if (initializing) setInitializing(false);
-    });
-
-    return unsubscribe; // cleanup on unmount
-  }, []);
-
-  React.useEffect(() => {
-    dispatch(
-      getLocalPreferences({
-        fallbackTheme: theme,
-      }),
-    );
-  }, []);
-
   const CombinedDefaultTheme = {
     ...MD3LightTheme,
     ...LightTheme,
@@ -86,6 +63,24 @@ function App() {
   const combinedTheme = preferences.dark
     ? CombinedDarkTheme
     : CombinedDefaultTheme;
+
+  React.useEffect(() => {
+    dispatch(
+      getLocalPreferences({
+        fallbackTheme: theme,
+      }),
+    );
+  }, []);
+
+  React.useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged(u => {
+      dispatch(toggleLoginState(!!u));
+
+      if (initializing) setInitializing(false);
+    });
+
+    return unsubscribe; // cleanup on unmount
+  }, []);
 
   if (preferences.loading) {
     return null;

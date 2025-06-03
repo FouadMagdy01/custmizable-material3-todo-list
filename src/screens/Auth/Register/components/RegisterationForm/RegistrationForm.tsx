@@ -39,10 +39,12 @@ const RegisterationForm = () => {
       await registeredUser.user.updateProfile({
         displayName: values.firstName + ' ' + values.lastName,
       });
+
       await database().ref(`/users/${registeredUser.user.uid}`).set({
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
+        isAnonymous: false,
       });
     },
   });

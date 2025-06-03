@@ -46,10 +46,12 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
     try {
       setSigningInAnonymously(true);
       const registeredUser = await auth().signInAnonymously();
+      console.log(registeredUser.user.uid);
       await database().ref(`/users/${registeredUser.user.uid}`).set({
         firstName: null,
         lastName: null,
         email: null,
+        isAnonymous: true,
       });
     } catch (error) {
       console.error('Login error:', error);
