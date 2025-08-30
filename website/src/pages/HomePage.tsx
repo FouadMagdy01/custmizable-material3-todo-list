@@ -3,11 +3,10 @@ import {
   Typography,
   Box,
   Button,
-  Grid,
   Card,
   CardContent,
-  CardMedia,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import {
   Palette as PaletteIcon,
   CheckCircle as CheckCircleIcon,
@@ -130,7 +129,7 @@ const HomePage = () => {
         </Typography>
         <Grid container spacing={{ xs: 2, md: 4 }}>
           {features.map((feature, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
               <Card
                 sx={{
                   height: '100%',

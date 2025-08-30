@@ -34,3 +34,6 @@ dist-ssr
 .firebase
 firebase-debug.log
 firebase-debug.*.log
+
+# Claude Code
+.claude/

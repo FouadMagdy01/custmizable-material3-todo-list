@@ -7,7 +7,9 @@
       "Bash(npx react-native start:*)",
       "Bash(npm create:*)",
       "Bash(npm install)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

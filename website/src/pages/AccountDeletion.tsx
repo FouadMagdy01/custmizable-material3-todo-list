@@ -26,7 +26,6 @@ const AccountDeletion = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
   const [step, setStep] = useState<'form' | 'confirmation' | 'processing' | 'complete'>('form');
 
   const handleDeleteAccount = async () => {
@@ -105,7 +104,6 @@ const AccountDeletion = () => {
       await deleteUser(user);
 
       setStep('complete');
-      setSuccess(true);
       setLoading(false);
     } catch (err: any) {
       setLoading(false);
@@ -128,7 +126,6 @@ const AccountDeletion = () => {
     setEmail('');
     setPassword('');
     setError('');
-    setSuccess(false);
     setLoading(false);
   };
 
