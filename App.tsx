@@ -1,4 +1,5 @@
-import {Button, StatusBar, useColorScheme} from 'react-native';
+import React from 'react';
+import {StatusBar, useColorScheme} from 'react-native';
 import {useMaterial3Theme} from '@pchmn/expo-material3-theme';
 import {
   PaperProvider,
@@ -11,18 +12,18 @@ import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
 } from '@react-navigation/native';
-import React from 'react';
 import RootNavigator from './src/navigation/RootNavigator';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store';
 import {useAppDispatch, useAppSelector} from './src/hooks/reduxHooks';
 import {getLocalPreferences} from './src/redux/preferences/reducers';
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import {toggleLoginState} from './src/redux/auth/authSlice';
 
-function App() {
+// Inner app component that has access to Redux store
+function AppContent() {
   const [initializing, setInitializing] = React.useState(true);
-
+  
   const preferences = useAppSelector(state => state.preferences);
   const dispatch = useAppDispatch();
   const {theme} = useMaterial3Theme({
@@ -70,17 +71,16 @@ function App() {
         fallbackTheme: theme,
       }),
     );
-  }, []);
+  }, [dispatch, theme]);
 
   React.useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged(u => {
-      dispatch(toggleLoginState(!!u));
-
+    const unsubscribe = auth().onAuthStateChanged(user => {
+      dispatch(toggleLoginState(!!user));
       if (initializing) setInitializing(false);
     });
 
     return unsubscribe; // cleanup on unmount
-  }, []);
+  }, [dispatch, initializing]);
 
   if (preferences.loading) {
     return null;
@@ -100,10 +100,11 @@ function App() {
   );
 }
 
-export default function () {
+// Main App component that wraps everything in Redux Provider
+export default function App() {
   return (
     <Provider store={store}>
-      <App />
+      <AppContent />
     </Provider>
   );
 }

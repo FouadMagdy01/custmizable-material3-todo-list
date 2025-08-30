@@ -8,11 +8,16 @@ import {StackScreenProps} from '@react-navigation/stack';
 export type RootStackParamList = {
   Tabs: NavigatorScreenParams<TabsParamList>;
   Auth: NavigatorScreenParams<AuthStackParamList>;
-  Task: undefined;
+  EmailVerification: { email: string };
+  Task: {
+    todo?: import('../types/appTypes').TaskItem;
+    mode?: 'create' | 'edit';
+  } | undefined;
 };
 export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
+  EmailVerification: { email: string };
   ForgetPassword: undefined;
   ConfirmOtp: undefined;
   ResetPassword: undefined;
@@ -40,6 +45,11 @@ export type LoginScreenProps = CompositeScreenProps<
 
 export type RegisterScreenProps = CompositeScreenProps<
   StackScreenProps<AuthStackParamList, 'Register'>,
+  StackScreenProps<RootStackParamList>
+>;
+
+export type EmailVerificationScreenProps = CompositeScreenProps<
+  StackScreenProps<AuthStackParamList, 'EmailVerification'>,
   StackScreenProps<RootStackParamList>
 >;
 

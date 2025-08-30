@@ -2,14 +2,17 @@ import React, {useCallback, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Button, HelperText, TextInput} from 'react-native-paper';
 import {useFormik} from 'formik';
+import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
+import firebaseService from '../../../../../services/firebaseService';
 import {
   RegisterationFormValues,
   registrationFormValidationScheme,
 } from './registerationValidationScheme';
+import {RegisterScreenProps} from '../../../../../navigation/types';
 
 const RegisterationForm = () => {
+  const navigation = useNavigation<RegisterScreenProps['navigation']>();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -31,21 +34,31 @@ const RegisterationForm = () => {
       confirmPassword: '',
     },
     onSubmit: async (values, formikHelpers) => {
-      const registeredUser = await auth().createUserWithEmailAndPassword(
-        values.email,
-        values.password,
-      );
+      try {
+        const registeredUser = await auth().createUserWithEmailAndPassword(
+          values.email,
+          values.password,
+        );
 
-      await registeredUser.user.updateProfile({
-        displayName: values.firstName + ' ' + values.lastName,
-      });
+        await registeredUser.user.updateProfile({
+          displayName: values.firstName + ' ' + values.lastName,
+        });
 
-      await database().ref(`/users/${registeredUser.user.uid}`).set({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        isAnonymous: false,
-      });
+        // Send email verification
+        await registeredUser.user.sendEmailVerification();
+
+        // Create user profile in Firestore
+        await firebaseService.createUserProfile({
+          displayName: values.firstName + ' ' + values.lastName,
+          email: values.email,
+        });
+
+        // Navigate to email verification screen
+        navigation.navigate('EmailVerification', { email: values.email });
+      } catch (error) {
+        console.error('Registration error:', error);
+        formikHelpers.setSubmitting(false);
+      }
     },
   });
 

@@ -7,7 +7,7 @@ import ScreenWrapper from '../../../components/ScreenWrapper';
 import {useFormik} from 'formik';
 import {object, string, InferType} from 'yup';
 import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
+import firebaseService from '../../../services/firebaseService';
 // ✅ Fixed and simplified validation schema
 const validationSchema = object({
   email: string()
@@ -47,12 +47,14 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
       setSigningInAnonymously(true);
       const registeredUser = await auth().signInAnonymously();
       console.log(registeredUser.user.uid);
-      await database().ref(`/users/${registeredUser.user.uid}`).set({
-        firstName: null,
-        lastName: null,
-        email: null,
-        isAnonymous: true,
-      });
+      // Create user profile for anonymous user
+      try {
+        await firebaseService.createUserProfile({
+          displayName: 'Guest User',
+        });
+      } catch (error) {
+        console.log('Profile creation not required for anonymous users');
+      }
     } catch (error) {
       console.error('Login error:', error);
     } finally {
@@ -96,7 +98,10 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
           {errors.password}
         </HelperText>
 
-        <Button style={styles.forgotPassword} mode="text" onPress={() => {}}>
+        <Button 
+          style={styles.forgotPassword} 
+          mode="text" 
+          onPress={() => navigation.navigate('ForgetPassword')}>
           Forget password?
         </Button>
 

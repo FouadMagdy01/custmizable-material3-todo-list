@@ -10,6 +10,7 @@ import {Appbar} from 'react-native-paper';
 import {RootStackParamList} from './types';
 import AuthNavigator from './AuthNavigator';
 import EditCreateTodo from '../screens/Edit+CreateTask/Edit+Create.Todo.Screen';
+import EmailVerificationScreen from '../screens/Auth/EmailVerification/EmailVerificationScreen';
 import auth from '@react-native-firebase/auth';
 import {useAppSelector} from '../hooks/reduxHooks';
 const Stack = createStackNavigator<RootStackParamList>();
@@ -52,6 +53,14 @@ const RootNavigator: React.FC<{}> = () => {
               headerTitle: 'New Task',
             }}
             component={EditCreateTodo}
+          />
+          <Stack.Screen
+            name="EmailVerification"
+            component={EmailVerificationScreen}
+            options={{
+              headerShown: true,
+              title: 'Email Verification',
+            }}
           />
         </>
       )}

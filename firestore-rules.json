@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "users/{userId}": {
+      "todos/{todoId}": {
+        ".read": "auth != null && auth.uid == $userId",
+        ".write": "auth != null && auth.uid == $userId && (newData.exists() == false || (newData.child('userId').val() == $userId && newData.child('createdAt').exists() && newData.child('updatedAt').exists()))",
+        ".validate": "newData.hasChildren(['id', 'title', 'description', 'isCompleted', 'priority', 'createdAt', 'updatedAt', 'userId']) && newData.child('title').isString() && newData.child('title').val().length >= 1 && newData.child('title').val().length <= 255 && newData.child('description').isString() && newData.child('description').val().length <= 1000 && newData.child('isCompleted').isBoolean() && newData.child('priority').val().matches(/^(low|medium|high)$/) && newData.child('userId').val() == $userId && newData.child('id').val() == $todoId"
+      },
+      "profile": {
+        ".read": "auth != null && auth.uid == $userId",
+        ".write": "auth != null && auth.uid == $userId",
+        ".validate": "newData.hasChildren(['userId', 'email', 'displayName', 'createdAt', 'updatedAt']) && newData.child('userId').val() == $userId"
+      }
+    }
+  }
+}
