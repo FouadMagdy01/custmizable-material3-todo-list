@@ -1,0 +1,35 @@
+<en-US>
+**HueDo v1.0 - Your Beautiful Material 3 Todo Manager**
+
+• **Material 3 Design** - Modern, elegant interface with dynamic color theming that adapts to your device
+• **Smart Task Management** - Create, edit, and organize tasks with priorities, due dates, categories, and custom tags
+• **Flexible Authentication** - Use as guest for local storage or create account for cloud synchronization across devices
+• **Customizable Themes** - Choose from beautiful color schemes or let the app adapt to your system colors
+• **Firebase Integration** - Secure cloud backup and real-time sync when signed in
+• **Email Verification** - Enhanced account security with email verification system
+• **Password Management** - Forgot password recovery and secure password change functionality
+• **Profile Management** - Update display name and manage account settings
+• **Default Settings** - Set preferred task priorities and sorting options
+• **Responsive Design** - Optimized for all screen sizes and orientations
+• **Offline Support** - Works seamlessly without internet connection in guest mode
+• **Privacy First** - Your data is encrypted and secure, with complete control over your information
+• **Account Deletion** - Full account and data removal available through secure web portal
+</en-US>
+
+<ar-SA>
+**هيودو الإصدار 1.0 - مدير المهام الجميل بتصميم Material 3**
+
+• **تصميم Material 3** - واجهة حديثة وأنيقة مع ألوان ديناميكية تتكيف مع جهازك
+• **إدارة ذكية للمهام** - إنشاء وتعديل وتنظيم المهام مع الأولويات والتواريخ المحددة والفئات والعلامات المخصصة
+• **مرونة في التسجيل** - استخدم كضيف للتخزين المحلي أو أنشئ حساباً للمزامنة السحابية عبر الأجهزة
+• **قوالب قابلة للتخصيص** - اختر من مجموعة ألوان جميلة أو دع التطبيق يتكيف مع ألوان نظامك
+• **تكامل Firebase** - نسخ احتياطي آمن ومزامنة فورية عند تسجيل الدخول
+• **تحقق من البريد الإلكتروني** - حماية محسنة للحساب مع نظام التحقق من البريد الإلكتروني
+• **إدارة كلمات المرور** - استرداد كلمة المرور المنسية وتغيير آمن لكلمة المرور
+• **إدارة الملف الشخصي** - تحديث اسم العرض وإدارة إعدادات الحساب
+• **إعدادات افتراضية** - تعيين أولويات المهام المفضلة وخيارات الترتيب
+• **تصميم متجاوب** - محسن لجميع أحجام الشاشات والاتجاهات
+• **دعم عدم الاتصال** - يعمل بسلاسة بدون اتصال بالإنترنت في وضع الضيف
+• **الخصوصية أولاً** - بياناتك مشفرة وآمنة، مع تحكم كامل في معلوماتك
+• **حذف الحساب** - إزالة كاملة للحساب والبيانات متاحة عبر البوابة الآمنة
+</ar-SA>

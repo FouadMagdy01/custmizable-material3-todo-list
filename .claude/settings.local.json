@@ -9,7 +9,10 @@
       "Bash(npm install)",
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(npx react-native:*)",
+      "Bash(./gradlew:*)",
+      "Bash(./android/gradlew clean:*)"
     ],
     "deny": [],
     "ask": []

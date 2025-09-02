@@ -37,6 +37,10 @@ local.properties
 *.keystore
 !debug.keystore
 
+# Android builds
+*.apk
+*.aab
+
 # node.js
 #
 node_modules/
@@ -73,5 +77,3 @@ yarn-error.log
 dist/
 web-build/
 
-# Claude Code
-.claude/
